@@ -3,7 +3,7 @@
     <h2>
       我是组件一
     </h2>
-    NUM：{{count.num}} <br>
+    NUM：{{count2}} <br>
     <button @click="handleClick">点击我数字加一</button>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
   },
   created () {
     console.log(this.$store.state.count);
-    this.count = this.$store.state.count;
+    //    this.count = this.$store.state.count;
     console.log(this.$store);
     this.$store.commit('increment')
     //    this.count = this.$store.state.count;
@@ -28,6 +28,11 @@ export default {
     handleClick (){
       this.$store.commit('increment')
       //      this.count = this.$store.state.count;
+    }
+  },
+  computed: {
+    count2 () {
+      return this.$store.state.count
     }
   }
 }
