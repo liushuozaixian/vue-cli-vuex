@@ -15,11 +15,17 @@
     getTodoById : {{getTodoById}} <br>
     通过mapGetters得到的doneTodos : {{doneTodos}} <br>
     通过mapGetters得到的改为doneTodos2 : {{doneTodos}} <br>
+    <button @click="handleClick2">修改第一个id为dsg</button>
+    <br>
+    <button @click="handleClick3">修改第一个id为dsg</button>
+    <br>
+
   </div>
 </template>
 
 <script>
-import {mapState, mapGetters} from 'vuex'
+import {mapState, mapGetters, mapMutations} from 'vuex'
+import {SOME_MUTATION} from '../store/mutation-types'
 export default {
   name: 'component1',
   components: {},
@@ -39,7 +45,17 @@ export default {
     handleClick (){
       this.$store.commit('increment')
       //      this.count = this.$store.state.count;
-    }
+    },
+    handleClick2 (){
+      //      一般方法提交mutation
+      this.$store.commit(SOME_MUTATION)
+    },
+    handleClick3 () {
+      this.SOME_MUTATION('dsg')
+    },
+    ...mapMutations([
+      SOME_MUTATION
+    ])
   },
   computed: {
     count2 () {

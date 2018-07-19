@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
+import {SOME_MUTATION} from './mutation-types';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -36,6 +36,16 @@ export default new Vuex.Store({
   mutations: {
     increment (state) {
       state.count.num++;
+    },
+    [SOME_MUTATION] (state, payload) {
+      //一条重要的原则就是要记住 mutation 必须是同步函数。
+      //实质上任何在回调函数中进行的状态的改变都是devtool不可追踪的,也就是说你这样用不会报错，只不过是你不能用
+      //devtool工具追踪这种变化了
+      // setTimeout(function () {
+      //   state.todos[0].id = 'dsg';
+      // }, 1000);
+
+      state.todos[0].id = 'dsg' + payload;
     }
   }
 });
