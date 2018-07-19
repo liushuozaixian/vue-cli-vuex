@@ -47,5 +47,29 @@ export default new Vuex.Store({
 
       state.todos[0].id = 'dsg' + payload;
     }
+  },
+
+  //我们可以直接在页面中分发mutataion，但是这样不可以分发mutatio为异步操作的，在mutation中不可以进行异步操作！！！
+  //所以这个时候action诞生了，action就是为了解决mutation中不可以进行异步操作的问题！！！！
+  //在action中进行异步操作然后再commit（'mutation'）
+  actions: {
+    increment ({commit}) {
+      setTimeout(() => {
+        commit(SOME_MUTATION);
+      }, 1000);
+    },
+    increment2 ({commit}) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          commit(SOME_MUTATION);
+          resolve();
+        }, 1000);
+      });
+    },
+    increment3 ({commit, dispatch}) {
+      dispatch('increment2').then(() => {
+        console.log('大硕哥！！');
+      });
+    }
   }
 });

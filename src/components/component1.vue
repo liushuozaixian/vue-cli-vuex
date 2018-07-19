@@ -19,12 +19,17 @@
     <br>
     <button @click="handleClick3">修改第一个id为dsg</button>
     <br>
-
+    <button @click="handleClick4">4修改第一个id为dsg</button>
+    <br>
+    <button @click="handleClick5">5修改第一个id为dsg</button>
+    <br>
+    <button @click="handleClick6">6修改第一个id为dsg</button>
+    <br>
   </div>
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations} from 'vuex'
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
 import {SOME_MUTATION} from '../store/mutation-types'
 export default {
   name: 'component1',
@@ -53,9 +58,24 @@ export default {
     handleClick3 () {
       this.SOME_MUTATION('dsg')
     },
+    handleClick4 () {
+      this.$store.dispatch('increment')
+    },
     ...mapMutations([
-      SOME_MUTATION
-    ])
+      'increment2'
+    ]),
+    handleClick5 () {
+      this.$store.dispatch('increment2').then(() => {
+        alert('异步action完成了！')
+      })
+    },
+    handleClick6 () {
+      this.$store.dispatch('increment3')
+    }
+    //    mapActions方法处理
+    //    ...mapActions([
+    //      'increment2'
+    //    ])
   },
   computed: {
     count2 () {
