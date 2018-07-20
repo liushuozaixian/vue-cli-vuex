@@ -3,7 +3,46 @@ import Vuex from 'vuex';
 import {SOME_MUTATION} from './mutation-types';
 Vue.use(Vuex);
 
+const moduleA = {
+  //当不写namespaced: true的时候时，
+  // 模块内部的 action、mutation 和 getter 是注册在全局命名空间的我们可以在任何组件内部直接调用
+  //当写了namespaced: true的时候时，
+  //就不能直接调用了需要用到类似getters['a/changea']这种写法才可以，
+  //模块内的状态state已经是嵌套的了，使用 `namespaced` 属性不会对其产生影响
+  namespaced: true,
+  state: {moduleA: 'ma'},
+  mutations: {
+    changea (state) {
+      state.moduleA = 'changed-ma';
+    }
+  },
+  actions: {
+    asyncchangea ({state, commit}) {
+      commit('changea');
+    }
+  }
+};
+
+const moduleB = {
+  state: {moduleB: 'mb'},
+  mutations: {
+    changeb (state) {
+      state.moduleB = 'changed-mb';
+    }
+  },
+  actions: {
+    asyncchangeb ({state, commit}) {
+      commit('changeb');
+    }
+  }
+};
+
 export default new Vuex.Store({
+  //加入module模块
+  modules: {
+    a: moduleA,
+    b: moduleB
+  },
 
   state: {
     count: {num: 0},

@@ -15,6 +15,8 @@
     getTodoById : {{getTodoById}} <br>
     通过mapGetters得到的doneTodos : {{doneTodos}} <br>
     通过mapGetters得到的改为doneTodos2 : {{doneTodos}} <br>
+    我是moduleA中的数据: {{modulea}} <br>
+    我是通过mapstate得到的moduleA中的数据: {{moduleA}} <br>
     <button @click="handleClick2">修改第一个id为dsg</button>
     <br>
     <button @click="handleClick3">修改第一个id为dsg</button>
@@ -25,6 +27,11 @@
     <br>
     <button @click="handleClick6">6修改第一个id为dsg</button>
     <br>
+    <button @click="handleClick7">7调用modules中的mutation</button>
+    <br>
+    <button @click="handleClick8">8通过mapmutation调用modules中的mutation</button>
+    <br>
+
   </div>
 </template>
 
@@ -71,11 +78,20 @@ export default {
     },
     handleClick6 () {
       this.$store.dispatch('increment3')
-    }
+    },
     //    mapActions方法处理
     //    ...mapActions([
     //      'increment2'
     //    ])
+    handleClick7 () {
+      this.$store.commit('a/changea');
+    },
+    handleClick8 () {
+      this.mapa()
+    },
+    ...mapMutations({
+      mapa: 'a/changea'
+    })
   },
   computed: {
     count2 () {
@@ -113,6 +129,13 @@ export default {
     //    通过mapGetters来获取store中的getters的计算属性并改名
     ...mapGetters({
       doneTodos2: 'doneTodos'
+    }),
+    modulea () {
+      return this.$store.state.a.moduleA
+    },
+    //    mapState绑定带有命名空间的数据
+    ...mapState({
+      moduleA: state => state.a.moduleA
     })
   }
 }
